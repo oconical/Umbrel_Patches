@@ -1,14 +1,14 @@
 #!/bin/bash
 
-sudo apt update
-sudo apt upgrade
-sudo apt install -y xorg openbox chromium lightdm
-sudo useradd -m kiosk
-sudo sed -i '/#autologin-user=/c\autologin-user=kiosk' /etc/lightdm/lightdm.conf 
-sudo sed -i '/#user-session=/c\user-session=openbox' /etc/lightdm/lightdm.conf 
-sudo su - kiosk
+    sudo apt update
+    sudo apt full-upgrade
+    sudo apt clean
+    sudo apt autoremove
+    sudo sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
+    sudo find /etc/apt/sources.list.d -type f -exec sed -i 's/bookworm/trixie/g' {} \;
+    sudo apt update
+    sudo apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" --purge --auto-remove
+   
+echo "Update to Trixie successful"
 
-sudo mkdir -p /home/kiosk/.config/openbox
-sudo printf "chromium --kiosk http://umbrel.local" > /home/kiosk/.config/openbox/autostart
-
-sudo reboot
+ sudo reboot
